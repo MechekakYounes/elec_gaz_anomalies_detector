@@ -30,7 +30,7 @@ plt.grid(True, linestyle='--', alpha=0.3)
 plt.legend()
 plt.tight_layout()
 plt.show()
-plt.savefig("consumption_difference_over_time.png")
+plt.savefig("consumption_difference_over_time.jpg")
 
 
 

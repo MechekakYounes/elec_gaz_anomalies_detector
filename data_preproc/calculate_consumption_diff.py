@@ -1,6 +1,7 @@
 """
-calculate the difference in after converting to the same unit (Kwh
-)"""
+calculate the difference in after converting to the same unit (Kwh)
+and also calculate the balance ratio (gas-elec)/(gas+elec) to see how balanced the consumption is 
+"""
 
 import pandas as pd 
 import time as tm
