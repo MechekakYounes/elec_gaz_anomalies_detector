@@ -1,7 +1,7 @@
 import pandas as pd 
 import matplotlib.pyplot as plt
 
-path = r"C:\Users\Administrator\Desktop\elec_gaz_anomalies_detector\combined_consumption_with_difference.csv"
+path = r"C:\Users\Administrator\Desktop\elec_gaz_anomalies_detector\combined_consumption_cleaned.csv"
 df = pd.read_csv(path)
 elec_col = "Total energie (Kwh)"
 gas_col = "Total gas energie (Kwh)"

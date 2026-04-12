@@ -4,7 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 begin_opening = tm.perf_counter()
-df = pd.read_csv("combined_consumption_24.csv")
+path = r"C:\Users\Administrator\Desktop\elec_gaz_anomalies_detector\combined_consumption_cleaned.csv"
+df = pd.read_csv(path)
 end_opening = tm.perf_counter()
 
 print(f"time taken to open file: {end_opening - begin_opening} seconds")
@@ -14,7 +15,7 @@ print(df.columns.tolist())
 
 # --- Adjust these column names to match your file ---
 kwh_col = "Total energie (Kwh)"      # change to actual electricity column name
-therm_col = "Total energie (Thermie)" # change to actual gas column name
+therm_col = "Total gas energie (Kwh)" # change to actual gas column name
 # ----------------------------------------------------
 
 # Calculate total energy

@@ -2,12 +2,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Load the merged CSV
-path = r"C:\Users\Administrator\Desktop\elec_gaz_anomalies_detector\data_visualization\combined_consumption_24.csv"
+path = r"C:\Users\Administrator\Desktop\elec_gaz_anomalies_detector\combined_consumption_cleaned.csv"
 df = pd.read_csv(path)
 
 # --- Adjust these column names to match your actual file ---
 kwh_col = "Total energie (Kwh)"
-therm_col = "Total energie (Thermie)"
+therm_col = "Total gas energie (Kwh)"
 # -----------------------------------------------------------
 
 # Drop any rows where either consumption value is missing
