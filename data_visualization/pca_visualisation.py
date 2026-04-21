@@ -5,24 +5,22 @@ from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 
 begin_opening = tm.perf_counter()
-path = r"C:\Users\Administrator\Desktop\elec_gaz_anomalies_detector\combined_consumption_cleaned.csv"
+path = r"C:\Users\Administrator\Desktop\elec_gaz_anomalies_detector\cleaned_consumption_{timestamp}.csv"
 df = pd.read_csv(path)
 end_opening = tm.perf_counter()
 print(f"time taken to open file: {end_opening - begin_opening} seconds")
 print(df.columns.tolist())
 
 elec_col = "Total energie (Kwh)"        # electricity in kWh
-gas_col  = "Total gas energie (Kwh)"    # gas already in kWh
+gas_col  = "Total energie (Thermie)"    # gas already in kWh
 group_col = "Groupe"  # if we want to group by client reference for time series analysis
-month_sin_col = "month_sin"
-month_cos_col = "month_cos"
 month_col = "month"
 balance_col = "balance_ratio"
-diff_col = "Consumption Difference (gas-elec (Kwh))"
+diff_col = "consumption difference"     # signed difference
 client_type_col = "client_type_encoded"
 
 # Select features for PCA
-features = [elec_col, gas_col, diff_col, balance_col, month_sin_col, month_cos_col, client_type_col]
+features = [elec_col, gas_col, diff_col, balance_col, month_col, client_type_col]
 X = df[features].dropna()  # Drop rows with missing values
 # Standardize features
 X_scaled = (X - X.mean()) / X.std()

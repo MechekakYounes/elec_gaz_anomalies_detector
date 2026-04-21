@@ -12,16 +12,18 @@ print(f"time taken to open file: {end_opening - begin_opening} seconds")
 print(df.columns.tolist())
 
 
+kwh_col = "Total energie (Kwh)"      
+therm_col = "Total gas energie (Kwh)" 
 
-# --- Adjust these column names to match your file ---
-kwh_col = "Total energie (Kwh)"      # change to actual electricity column name
-therm_col = "Total gas energie (Kwh)" # change to actual gas column name
-# ----------------------------------------------------
 
 # Calculate total energy
 total_kwh = df[kwh_col].sum()
 total_therm = df[therm_col].sum()
+ratio = total_them / total_therm 
 
+print(f"Total Electricity Consumption (kWh): {total_kwh:,.2f}")
+print(f"Total Gas Consumption (Thermie): {total_therm:,.2f}")
+print(f"Electricity to Gas Ratio: {ratio:.2f}")
 # Create a simple bar chart
 plt.figure(figsize=(6, 5))
 bars = plt.bar(["Electricity (kWh)", "Gas (Thermie)"], [total_kwh, total_therm], 

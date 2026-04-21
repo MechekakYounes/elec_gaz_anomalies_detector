@@ -10,7 +10,7 @@ mpl.rcParams['path.simplify_threshold'] = 0.1   # default 0.111, lower = more si
 mpl.rcParams['agg.path.chunksize'] = 10000      # break path into chunks
 
 begin_opening = tm.perf_counter()
-path = r"C:\Users\Administrator\Desktop\elec_gaz_anomalies_detector\combined_consumption_cleaned.csv"
+path = r"C:\Users\Administrator\Desktop\elec_gaz_anomalies_detector\cleaned_consumption_{timestamp}.csv"
 df = pd.read_csv(path)
 end_opening = tm.perf_counter()
 print(f"time taken to open file: {end_opening - begin_opening} seconds")
@@ -19,19 +19,12 @@ print(df.columns.tolist())
 
 
 elec_col = "Total energie (Kwh)"        # electricity in kWh
-gas_col  = "Total gas energie (Kwh)"    # gas already in kWh (converted)
-date_col = "Date"
-diff_col = "Consumption Difference (gas-elec (Kwh))"
+gas_col  = "Total energie (Thermie)"    # gas already in kWh (converted)
+diff_col = "consumption difference"     # signed difference
 client_type_col = "client_type_encoded"
 nature_col = "nature_encoded"
-group_col = "Groupe"  # if we want to group by client reference for time series analysis
+group_col = "Groupe"  
 balance_col = "balance_ratio"
-
-# Ensure date column is datetime
-if df[date_col].dtype in ['int64', 'float64']:
-    df[date_col] = pd.to_datetime(df[date_col], unit='D', origin='1899-12-30')
-else:
-    df[date_col] = pd.to_datetime(df[date_col])
 
 #features selection
 feature_columns = [
@@ -42,14 +35,12 @@ feature_columns = [
     nature_col,
     client_type_col,
     group_col, #city/area
-    'month_sin',       # cyclic month so dec will be near jan
-    'month_cos',
     'is_winter', 
     'is_summer'        
 ]
 
 # Drop rows with missing values
-df_clean = df[feature_columns + [date_col]].dropna()
+df_clean = df[feature_columns].dropna()
 X = df_clean[feature_columns]
 
 # 3. Scale features (optional but recommended)
@@ -58,15 +49,15 @@ X_scaled = scaler.fit_transform(X)
 
 # 4. Train Isolation Forest
 iso_forest = IsolationForest(
-    n_estimators=100,
+    n_estimators=200,
     max_samples='auto',
-    contamination=0.0005,        # 0.05% of data considered anomalies
+    contamination=0.0015,        
     random_state=42,
     verbose=0
 )
 
-df_clean['anomaly'] = iso_forest.fit_predict(X_scaled)   # -1 = anomaly, 1 = normal
-df_clean['anomaly_score'] = iso_forest.decision_function(X_scaled)  # lower = more anomalous
+df_clean['anomaly'] = iso_forest.fit_predict(X)   # -1 = anomaly, 1 = normal
+df_clean['anomaly_score'] = iso_forest.decision_function(X)  # lower = more anomalous
 
 # 5. Save results
 output_path = "isolation_forest_results.csv"

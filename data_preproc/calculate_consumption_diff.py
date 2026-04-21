@@ -10,7 +10,7 @@ import numpy as np
 
 THERMIE_TO_KWH = 1.16222
 
-path = r"C:\Users\Administrator\Desktop\elec_gaz_anomalies_detector\data_visualization\combined_consumption_cleaned.csv" 
+path = r"C:\Users\Administrator\Desktop\elec_gaz_anomalies_detector\data_visualization\combined_consumption_24.csv" 
 begin_opening = tm.perf_counter()
 df = pd.read_csv(path)
 end_opening = tm.perf_counter()
