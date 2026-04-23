@@ -1,11 +1,11 @@
 import pandas as pd 
 import matplotlib.pyplot as plt
 
-path = r"C:\Users\Administrator\Desktop\elec_gaz_anomalies_detector\combined_consumption_cleaned.csv"
+path = r"C:\Users\Administrator\Desktop\elec_gaz_anomalies_detector\cleaned_consumption_{timestamp}.csv"
 df = pd.read_csv(path)
 elec_col = "Total energie (Kwh)"
-gas_col = "Total gas energie (Kwh)"
-diff_col = "Consumption Difference (gas-elec (Kwh))"
+gas_col = "Total energie (Thermie)"
+diff_col = "consumption difference"
 balance_col = "balance_ratio"
 date_col = "Date" 
 

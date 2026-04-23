@@ -19,7 +19,7 @@ print(df.columns.tolist())
 
 
 elec_col = "Total energie (Kwh)"        # electricity in kWh
-gas_col  = "Total energie (Thermie)"    # gas already in kWh (converted)
+gas_col  = "Total energie (Thermie)"    # gas is converted to kWh * 0.09 (converted)
 diff_col = "consumption difference"     # signed difference
 client_type_col = "client_type_encoded"
 nature_col = "nature_encoded"
@@ -71,10 +71,10 @@ plt.figure(figsize=(10, 6))
 normal = df_clean[df_clean['anomaly'] == 1]
 anomaly = df_clean[df_clean['anomaly'] == -1]
 
-plt.scatter(normal[elec_col], normal[gas_col], c='steelblue', label='Normal', alpha=0.6)
-plt.scatter(anomaly[elec_col], anomaly[gas_col], c='red', label='Anomaly', edgecolors='black', s=80)
-plt.xlabel(f'Electricity (kWh)')
-plt.ylabel(f'Gas (kWh)')
+plt.scatter(normal[balance_col], normal[balance_col], c='steelblue', label='Normal', alpha=0.6)
+plt.scatter(anomaly[balance_col], anomaly[group_col], c='black', label='Anomaly', edgecolors='black', s=80)
+plt.xlabel(f'Balance Ratio (elec - gas)/(elec+gas)')
+plt.ylabel(f'Group')
 plt.title('Isolation Forest: Normal vs Anomalous Consumption')
 plt.legend()
 plt.grid(True, alpha=0.3)

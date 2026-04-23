@@ -2,7 +2,7 @@ import pandas as pd
 import time as tm
 
 THERMIE_TO_KWH = 1.16222
-GAS_TO_ELEC = 0.09 * THERMIE_TO_KWH  # 1 Thermie is approximately 0.09 Kwh of electricity to better balance
+GAS_TO_ELEC = 0.09 * THERMIE_TO_KWH  # 1 Thermie is approximately 0.9 Kwh of electricity to better balance
 #specify columns to read from the excel files to save memory
 gas_columns = ["Reference", "Numero Facture", "Date", "Total energie (Thermie)", "Type client", "Groupe", "Nature"]
 elec_columns = ["Reference", "Numero Facture", "Total energie (Kwh)"]
@@ -32,7 +32,7 @@ merged_cleaned = merged[~(merged['Total energie (Kwh)'] == 0) ]
 merged_cleaned = merged_cleaned[~(merged_cleaned['Total energie (Thermie)'] == 0)]
 
 #based on consumption visualisation we decided to represent the gas consumption by this.
-merged_cleaned ["Total energie (Thermie)"] = merged_cleaned["Total energie (Kwh)"] * GAS_TO_ELEC
+merged_cleaned ["Total energie (Thermie)"] = merged_cleaned["Total energie (Thermie)"] * GAS_TO_ELEC
 
 #calculate the differnece and a banalce ratio
 merged_cleaned['consumption difference'] = merged_cleaned['Total energie (Thermie)'] - merged_cleaned["Total energie (Kwh)"]
