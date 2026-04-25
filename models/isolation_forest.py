@@ -24,6 +24,7 @@ diff_col = "consumption difference"     # signed difference
 client_type_col = "client_type_encoded"
 nature_col = "nature_encoded"
 group_col = "Groupe"  
+date_col = "Date"
 balance_col = "balance_ratio"
 
 #features selection
@@ -39,8 +40,10 @@ feature_columns = [
     'is_summer'        
 ]
 
+return_columns = ['Reference', 'Numero Facture'] + feature_columns
+
 # Drop rows with missing values
-df_clean = df[feature_columns].dropna()
+df_clean = df[return_columns].dropna()
 X = df_clean[feature_columns]
 
 # 3. Scale features (optional but recommended)
@@ -71,8 +74,10 @@ plt.figure(figsize=(10, 6))
 normal = df_clean[df_clean['anomaly'] == 1]
 anomaly = df_clean[df_clean['anomaly'] == -1]
 
-plt.scatter(normal[balance_col], normal[balance_col], c='steelblue', label='Normal', alpha=0.6)
-plt.scatter(anomaly[balance_col], anomaly[group_col], c='black', label='Anomaly', edgecolors='black', s=80)
+
+
+plt.scatter(normal[elec_col], normal[gas_col], c='steelblue', label='Normal', alpha=0.6)
+plt.scatter(anomaly[elec_col], anomaly[gas_col], c='black', label='Anomaly', edgecolors='black', s=80)
 plt.xlabel(f'Balance Ratio (elec - gas)/(elec+gas)')
 plt.ylabel(f'Group')
 plt.title('Isolation Forest: Normal vs Anomalous Consumption')
@@ -81,46 +86,3 @@ plt.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.savefig('anomaly_scatter.png', dpi=150)
 plt.show()
-
-# 6.2 Time series: Anomaly score over date
-plt.figure(figsize=(12, 5))
-plt.plot(df_clean[date_col], df_clean['anomaly_score'], 'o-', markersize=3, alpha=0.7)
-plt.axhline(y=np.percentile(df_clean['anomaly_score'], 5), color='red', linestyle='--', 
-            label='5th percentile threshold')
-plt.xlabel('Date')
-plt.ylabel('Anomaly Score (lower = more anomalous)')
-plt.title('Isolation Forest Anomaly Scores Over Time')
-plt.legend()
-plt.grid(True, alpha=0.3)
-plt.tight_layout()
-plt.savefig('anomaly_scores_timeseries.png', dpi=150)
-plt.show()
-
-# 6.3 Histogram of anomaly scores
-plt.figure(figsize=(8, 5))
-plt.hist(df_clean['anomaly_score'], bins=50, edgecolor='black', alpha=0.7)
-plt.axvline(x=np.percentile(df_clean['anomaly_score'], 5), color='red', linestyle='--', 
-            label='5th percentile (anomaly threshold)')
-plt.xlabel('Anomaly Score')
-plt.ylabel('Frequency')
-plt.title('Distribution of Anomaly Scores')
-plt.legend()
-plt.grid(True, alpha=0.3)
-plt.tight_layout()
-plt.savefig('anomaly_score_distribution.png', dpi=150)
-plt.show()
-
-# 6.4 (Optional) Balance ratio distribution for anomalies
-plt.figure(figsize=(8, 5))
-plt.hist(df_clean[df_clean['anomaly']==1][balance_col], bins=30, alpha=0.6, label='Normal', color='blue')
-plt.hist(df_clean[df_clean['anomaly']==-1][balance_col], bins=30, alpha=0.6, label='Anomaly', color='red')
-plt.xlabel('Balance Ratio (elec - gas)/(elec+gas)')
-plt.ylabel('Frequency')
-plt.title('Balance Ratio: Normal vs Anomaly')
-plt.legend()
-plt.grid(True, alpha=0.3)
-plt.tight_layout()
-plt.savefig('balance_ratio_anomalies.png', dpi=150)
-plt.show()
-
-print("Visualizations saved as PNG files.")

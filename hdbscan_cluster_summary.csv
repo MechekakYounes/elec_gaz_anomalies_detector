@@ -1,0 +1,4 @@
+cluster,Total energie (Kwh),Total energie (Thermie),balance_ratio,client_type_encoded,Groupe,PC1,PC2
+-1,5311.733,6524.78,0.06,0.438,59,2.346,9.818
+0,1612.111,953.314,-0.293,0.056,59,-0.74,6.496
+1,486.079,512.511,-0.088,1.0,15,-0.01,-0.113
